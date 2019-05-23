@@ -1,8 +1,12 @@
 import * as firebase from 'firebase';
 // import firestore from 'firebase/firestore';
 // import auth from 'firebase/auth';
+ 
+// const settings = {timestampsInSnapshots: true};
+// firebase.settings(settings);
+// const timestamp = snapshot.get('created_at'); 
+// const date =timestamp.toDate();
 
-const settings = {timestampsInSnapshots: true};
 
 const config = {
   apiKey: "AIzaSyDi5b1509TgaL4SRLLHDIaX6RMKI4do7eU",
@@ -15,5 +19,5 @@ const config = {
 };
 firebase.initializeApp(config);
 
-firebase.firestore().settings(settings);
+firebase.firestore().settings({});
 export default firebase;

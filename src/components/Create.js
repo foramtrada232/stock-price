@@ -6,13 +6,12 @@ class Create extends Component {
 
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('users');
+     this.ref = firebase.firestore().collection('users');
     this.state = {
-      userName: '',
       email: '',
       password: '',
-      phone: '',
-      address: ''
+      username: '',
+      createdAt: '',
     };
   }
   onChange = (e) => {
@@ -24,18 +23,22 @@ class Create extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const {email, password } = this.state;
+    const {email, password, username, createdAt } = this.state;
 
     this.ref.add({
-     
       email,
       password,
-   
+      username,
+      createdAt: Date.now(),
+      isDeleted:false,
+      updatedAt:Date.now(),
+      company:[]
+
     }).then((docRef) => {
       this.setState({
         email: '',
         password: '',
-       
+
       });
       console.log("push");
       this.props.history.push("/")
@@ -43,54 +46,65 @@ class Create extends Component {
     .catch((error) => {
       console.error("Error adding document: ", error);
     });
-     firebase
-     .auth()
-     .createUserWithEmailAndPassword(email, password).then((u)=>{
-      
-      alert("signup sucessfully");
-    }).catch((error) => {
-        console.log("error===========>",error);
+
+    firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password).then((u)=>{
+      return this.props.firebase.user(u.user.uid).set({
+        username,
+        email,
+        createdAt,
       });
+
+    }).catch((error) => {
+      console.log("error===========>",error);
+    });
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, username, createdAt } = this.state;
     return (
-      <div class="container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              ADD USER
-            </h3>
-          </div>
-          <div class="panel-body">
-            <h4><Link to="/" class="btn btn-primary">Users List</Link></h4>
-            <form onSubmit={this.onSubmit}>
-              
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
-              </div>
-              <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
-              </div>
-              
-              
-              <button type="submit" class="btn btn-success">Sign up</button>
-
-            </form>
-          </div>
-        </div>
+      <div className="container">
+      <div className="panel panel-default">
+      <div className="panel-heading">
+      <h3 className="panel-title">
+      ADD USER
+      </h3>
       </div>
-    );
+      <div className="panel-body">
+      <h4><Link to="/" className="btn btn-primary">Users List</Link></h4>
+      <form onSubmit={this.onSubmit}>
+      <div className="form-group">
+      <label htmlFor="email">Email:</label>
+      <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
+      </div>
+      <div className="form-group">
+      <label htmlFor="password">Password:</label>
+      <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
+      </div>
+      <div className="form-group">
+      <label htmlFor="username">UserName:</label>
+      <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
+      </div>
+      <div className="form-group">
+      <label htmlFor="createdAt">created:</label>
+      <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
+      </div>
+
+      <button type="submit" className="btn btn-success">Sign up</button>
+
+      </form>
+      </div>
+      </div>
+      </div>
+      );
   }
 }
 
 export default Create;
 
 
-// <div class="form-group">
+// <div className="form-group">
 //                 <label for="userName">UserName:</label>
 //                 <input type="text" class="form-control" name="userName" value={userName} onChange={this.onChange} placeholder="UserName" />
 //               </div>

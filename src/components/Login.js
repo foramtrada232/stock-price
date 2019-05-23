@@ -4,6 +4,7 @@ import firebase from '../Firebase';
 
 class Login extends Component {
 
+
   constructor() {
     super();
     this.ref = firebase.firestore().collection('users');
@@ -14,20 +15,18 @@ class Login extends Component {
       user: [],
       array:[],
     };
+    
   }
 
   onCollectionUpdate = (querySnapshot) => {
     const user = [];
     querySnapshot.forEach((doc) => {
-      const { userName, email, password, phone, address } = doc.data();
+      const {email, password} = doc.data();
       user.push({
         key: doc.id,
         doc, 
-        userName,
         email,
         password,
-        phone,
-        address,
         
       });
     });
@@ -38,41 +37,37 @@ class Login extends Component {
   componentDidMount() {
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
+  
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
   handleSubmit = (event) => {
     event.preventDefault();
+    const { email, password } = this.state;
     firebase
     .auth()
-    .signInWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-      alert("login sucessfully");
-    }).catch((error) => {
-      console.log("error===========>",error);
-    });
-
-  }
-
+    .signInWithEmailAndPassword(email, password).then(()=>{
+      console.log("login sucessfully")
+    })
+  };
   render() {
-
-    console.log("user=-============>",this.state.user);
 
     const {email, password} = this.state;
     return (
 
-      <div class="container">
-      <div class="panel panel-default">
-      <div class="panel-body">
+      <div className="container">
+      <div className="panel panel-default">
+      <div className="panel-body">
       <form onSubmit={this.handleSubmit}>
-      <div class="form-group">
+      <div className="form-group">
       <label for="email">Email:</label>
-      <input type="text" class="form-control" name="email" value={email} onChange={this.handleInputChange} placeholder="Email" />
+      <input type="text" className="form-control" name="email" value={email} onChange={this.handleInputChange} placeholder="Email" />
       </div>
-      <div class="form-group">
+      <div className="form-group">
       <label for="password">Password:</label>
-      <input type="password" class="form-control" name="password" value={password} onChange={this.handleInputChange} placeholder="Password" />
+      <input type="password" className="form-control" name="password" value={password} onChange={this.handleInputChange} placeholder="Password" />
       </div><br/>
-      <button type="submit" class="btn btn-success">Login</button>
+      <button type="submit" className="btn btn-success">Login</button>
       </form>
       </div>
       </div>

@@ -35,3 +35,12 @@
 .table2 table{
   border: 1px solid black;
 }
+
+card{
+  border: 1px solid black;
+}
+.hello{
+  text-align: center;
+  color: blue;
+  margin-bottom: 20px;  
+}

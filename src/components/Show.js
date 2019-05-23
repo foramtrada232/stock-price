@@ -48,16 +48,10 @@ class Show extends Component {
           </div>
           <div class="panel-body">
             <dl>
-             <dt>Name:</dt>
-              <dd>{this.state.user.userName}</dd>
               <dt>Email:</dt>
               <dd>{this.state.user.email}</dd>
               <dt>Password:</dt>
               <dd>{this.state.user.password}</dd>
-              <dt>Phone:</dt>
-              <dd>{this.state.user.phone}</dd>
-               <dt>Address:</dt>
-              <dd>{this.state.user.address}</dd>
             </dl>
             <Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.key)} class="btn btn-danger">Delete</button>
