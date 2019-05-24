@@ -19,6 +19,7 @@ class App extends Component {
       query: '',
       value: '',
       companySymbol: '',
+      companyName: ''
 
     };
     this.handleClick1 = this.handleClick1.bind(this);
@@ -80,9 +81,9 @@ class App extends Component {
             //   console.log("hello");
             // }
 
-            handleClick1(event) {
-              console.log('data: ', event);
-              this.setState({companySymbol: event});
+            handleClick1(data) {
+              console.log('data: ', data);
+              this.setState({companySymbol: data['2. symbol'],companyName: data['1. name']});
               this.getApiData();
               this.addComapny();
             }
@@ -107,21 +108,14 @@ class App extends Component {
                   )
               }
             }
-
-            updateCompany(){
-              const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
-              ref.get().then((doc) => {
-                if (doc.exists) {
-                  const users = doc.data();
-                  this.setState({
-                    key: doc.id,
-                    company : this.state.companySymbol
-                  });
-                } else {
-                  console.log("No such document!");
-                }
-              });
-            }
+            // updateCompany = (e) => {
+            //   firebase.database().ref('users/' + email).set({
+            //    company: {
+            //      name:this.state.companyName,
+            //      symbol: this.state.companySymbol
+            //    }
+            //   });
+            // }
 
             displayData(){
               if(this.state.searchResponse === undefined ){
@@ -142,7 +136,7 @@ class App extends Component {
                   {this.state.searchResponse.map(data =>
                     <tr>
                     <td><button onClick={this.handleClick}>{data['2. name']}</button></td>
-                    <td><button onClick={() =>this.handleClick1(data['1. symbol'])} >{data['1. symbol']}</button></td>
+                    <td><button onClick={() =>this.handleClick1(data)} >{data['1. symbol']}</button></td>
                     </tr>
                     )}
                   </tbody>

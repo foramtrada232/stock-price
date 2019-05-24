@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
+
 // import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -44,10 +45,15 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
+    console.log(email);
+    console.log(password);
     firebase
     .auth()
     .signInWithEmailAndPassword(email, password).then(()=>{
+    
       console.log("login sucessfully")
+    }).catch((error) => {
+      console.log('hey error: ', error);
     })
   };
   render() {
