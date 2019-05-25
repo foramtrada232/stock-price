@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
-
 // import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -50,27 +49,28 @@ class Login extends Component {
     firebase
     .auth()
     .signInWithEmailAndPassword(email, password).then(()=>{
-    
+      localStorage.setItem('email1',email)
+      console.log(localStorage);
+  
+     this.props.history.push("/company");
       console.log("login sucessfully")
     }).catch((error) => {
       console.log('hey error: ', error);
     })
   };
   render() {
-
     const {email, password} = this.state;
     return (
-
       <div className="container">
       <div className="panel panel-default">
       <div className="panel-body">
       <form onSubmit={this.handleSubmit}>
       <div className="form-group">
-      <label for="email">Email:</label>
+      <label htmlFor="email">Email:</label>
       <input type="text" className="form-control" name="email" value={email} onChange={this.handleInputChange} placeholder="Email" />
       </div>
       <div className="form-group">
-      <label for="password">Password:</label>
+      <label htmlFor="password">Password:</label>
       <input type="password" className="form-control" name="password" value={password} onChange={this.handleInputChange} placeholder="Password" />
       </div><br/>
       <button type="submit" className="btn btn-success">Login</button>
@@ -83,3 +83,4 @@ class Login extends Component {
   }
 
   export default Login;
+

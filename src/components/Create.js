@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
-import { Link } from 'react-router-dom';
 
 class Create extends Component {
 
@@ -23,7 +22,7 @@ class Create extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const {email, password, username, createdAt } = this.state;
+    const {email, password, username } = this.state;
 
     this.ref.add({
       email,
@@ -40,8 +39,7 @@ class Create extends Component {
         password: '',
 
       });
-      console.log("push");
-      this.props.history.push("/")
+      this.props.history.push("/login")
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
@@ -50,12 +48,12 @@ class Create extends Component {
     firebase
     .auth()
     .createUserWithEmailAndPassword(email, password).then((u)=>{
-      return this.props.firebase.user(u.user.uid).set({
-        username,
-        email,
-        createdAt,
-      });
-
+      // return this.props.firebase.users(u.users.uid).set({
+      //   username,
+      //   email,
+      //   createdAt,
+      // });
+      this.props.history.push("/login");
     }).catch((error) => {
       console.log("error===========>",error);
     });
@@ -66,13 +64,7 @@ class Create extends Component {
     return (
       <div className="container">
       <div className="panel panel-default">
-      <div className="panel-heading">
-      <h3 className="panel-title">
-      ADD USER
-      </h3>
-      </div>
       <div className="panel-body">
-      <h4><Link to="/" className="btn btn-primary">Users List</Link></h4>
       <form onSubmit={this.onSubmit}>
       <div className="form-group">
       <label htmlFor="email">Email:</label>
