@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
-// import { Link } from 'react-router-dom';
+import './login.css';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -8,6 +13,7 @@ class Login extends Component {
   constructor() {
     super();
     this.ref = firebase.firestore().collection('users');
+    // this.unsubscribe = null;
     this.state = {
       email: '',
       password: '',
@@ -26,6 +32,7 @@ class Login extends Component {
         doc, 
         email,
         password,
+        
       });
     });
     this.setState({
@@ -48,6 +55,8 @@ class Login extends Component {
     .auth()
     .signInWithEmailAndPassword(email, password).then(()=>{
       localStorage.setItem('email1',email)
+      console.log(localStorage);
+  
      this.props.history.push("/company");
       console.log("login sucessfully")
     }).catch((error) => {
@@ -57,7 +66,53 @@ class Login extends Component {
   render() {
     const {email, password} = this.state;
     return (
-      <div className="container">
+
+      <div>
+      <div className="backgroung_class">
+      <div className="main_class">
+      <h1 className="text-center">Stock Login</h1>
+      <Grid container spacing={12} xs={12}>
+      <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-email-input"
+      label="Email"
+      type="email"
+      name="email"
+      autoComplete="email"
+      margin="normal"
+      variant="outlined"
+      value={email} 
+      onChange={this.handleInputChange}
+      />
+      </Grid>
+      <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-password-input"
+      label="Password"
+      type="password"
+      autoComplete="current-password"
+      margin="normal"
+      variant="outlined"
+      value={password} 
+      onChange={this.handleInputChange}
+      />
+      </Grid>
+      <Grid item sm={12} xs={12}>
+      <Button color="primary"  variant="contained" size="large" onClick={(event)=>this.handleSubmit(event)}>
+        Login
+      </Button>
+      </Grid>
+      <Divider />
+      <Grid item sm={12}>
+      <div className="text-center">
+      New User? <Button color="primary"><Link to="/create">Sign Up</Link></Button>
+      </div>
+      </Grid>
+      </Grid>
+      
+      </div>
+      </div>
+
       <div className="panel panel-default">
       <div className="panel-body">
       <form onSubmit={this.handleSubmit}>
@@ -79,4 +134,5 @@ class Login extends Component {
   }
 
   export default Login;
+
 

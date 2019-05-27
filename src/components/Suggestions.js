@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import firebase from '../Firebase';
 
-// import Suggestions from './components/Suggestions'
-// import { FaPlus} from 'react-icons/fa';
 class Suggestions extends Component {
 	constructor(props) {
 		super(props);
@@ -16,6 +14,7 @@ class Suggestions extends Component {
 			array:[],
 			searchResponse: [],
 			results: [],
+			companyData: [],
 			query: '',
 			value: '',
 			companySymbol: '',
@@ -23,7 +22,6 @@ class Suggestions extends Component {
 			symbol: '',
 			name: '',
 			userEmail: ''
-
 		};
 		this.handleClick1 = this.handleClick1.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -85,29 +83,56 @@ class Suggestions extends Component {
 		console.log('updatecompany:');
 		localStorage.getItem('email1')
 		let email = localStorage.email1;
-		// console.log(companyName)
-		// firebase.firestore().collection("company").where("name", "==", companyName)
-		// .get()
-		// .then(function(querySnapshot) {
-		// 	console.log("already added");
-		// 	console.log(querySnapshot);
-		// 	});
-		this.ref.add({
-			symbol: this.state.companySymbol,
-			name: this.state.companyName,
-			email: email
-		}).then((docRef) => {
-			this.setState({
-				name: this.state.companyName,
-				symbol:  this.state.companySymbol,
-				email: email
+		console.log(companyName)
+		let companyData = [];
+		firebase.firestore().collection("company").where("name", "==", companyName).where("email", "==", email) 
+		.get()
+		.then(function(querySnapshot) {
+			console.log("querySnapshot",querySnapshot)
+			querySnapshot.forEach(function(doc) {
+				const { name, email } = doc.data();
+				console.log("data:",doc.data())
+				companyData.push({
+					key: doc.id,
+					doc,
+					name,
+					email,
+				});
 			});
-			console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
-		})
-		.catch((error) => {
-			console.error("Error adding document: ", error);
-		})
+			console.log("data1:",companyData.length);
+			if (companyData.length) {
+				console.log('found data', companyData);
+				alert("already added");
+			} else{
+				console.log("new company");
+				addCompany1()
+			}
+		});
+
+		let addCompany1 = () =>{
+			localStorage.getItem('email1')
+			let email = localStorage.email1;
+			this.ref.add({
+				symbol:this.state.companySymbol,
+				name:this.state.companyName,
+				email: email
+			}).then((docRef) => {
+				this.setState({
+					name: this.state.companyName,
+					symbol: this.state.companySymbol,
+					email: email
+				});
+				console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
+			})
+			.catch((error) => {
+				console.error("Error adding document: ", error);
+			})
+
+		}
+
 	}
+
+	
 
 	displayData(){
 		console.log(this.state.searchResponse)
@@ -163,7 +188,7 @@ class Suggestions extends Component {
 		})
 	}
 
-	
+
 	render() {
 		console.log("user=-============>",this.state.user);
 		return (
@@ -180,6 +205,7 @@ class Suggestions extends Component {
 			</center>
 			{this.displayData()}
 			{this.addComapny()}
+
 			</div>
 
 			)
