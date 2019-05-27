@@ -6,11 +6,12 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 
+
 class Create extends Component {
 
   constructor() {
     super();
-     this.ref = firebase.firestore().collection('users');
+    this.ref = firebase.firestore().collection('users');
     this.state = {
       email: '',
       password: '',
@@ -26,7 +27,6 @@ class Create extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-
     const {email, password, username } = this.state;
 
     this.ref.add({
@@ -42,7 +42,6 @@ class Create extends Component {
       this.setState({
         email: '',
         password: '',
-
       });
       this.props.history.push("/login")
     })
@@ -54,15 +53,14 @@ class Create extends Component {
     .auth()
     .createUserWithEmailAndPassword(email, password).then((u)=>{
       // return this.props.firebase.users(u.users.uid).set({
-      //   username,
-      //   email,
-      //   createdAt,
-      // });
-      this.props.history.push("/login");
-    }).catch((error) => {
-      console.log("error===========>",error);
-    });
-  }
+      //     username,
+      //     email
+      //   });
+        this.props.history.push("/login");
+      }).catch((error) => {
+        console.log("error===========>",error);
+      });
+    }
 
   render() {
     const { email, password, username, createdAt } = this.state;
@@ -157,21 +155,41 @@ class Create extends Component {
       // </div>
       // </div>
       );
+    render() {
+      const { email, password, username, createdAt } = this.state;
+      return (
+        <div className="container">
+       
+        <div className="panel panel-default">
+        <div className="panel-body">
+        <form onSubmit={this.onSubmit}>
+        <div className="form-group">
+        <label htmlFor="email">Email:</label>
+        <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
+        </div>
+        <div className="form-group">
+        <label htmlFor="password">Password:</label>
+        <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
+        </div>
+        <div className="form-group">
+        <label htmlFor="username">UserName:</label>
+        <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
+        </div>
+        <div className="form-group">
+        <label htmlFor="createdAt">created:</label>
+        <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
+        </div>
+
+        <button type="submit" className="btn btn-success">Sign up</button>
+
+        </form>
+        </div>
+        </div>
+        </div>
+        );
+    }
   }
-}
 
-export default Create;
+  export default Create;
 
 
-// <div className="form-group">
-//                 <label for="userName">UserName:</label>
-//                 <input type="text" class="form-control" name="userName" value={userName} onChange={this.onChange} placeholder="UserName" />
-//               </div>
-//               <div class="form-group">
-//                 <label for="phone">Phone:</label>
-//                 <input type="number" class="form-control" name="phone" value={phone} onChange={this.onChange} placeholder="Phone" />
-//               </div>
-//               <div class="form-group">
-//                 <label for="address">Address:</label>
-//                 <textArea class="form-control" name="address" onChange={this.onChange} placeholder="Address" cols="80" rows="3">{address}</textArea>
-//               </div>

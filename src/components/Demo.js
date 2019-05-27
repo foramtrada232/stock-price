@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -13,6 +13,7 @@ class Login extends Component {
   constructor() {
     super();
     this.ref = firebase.firestore().collection('users');
+    // this.unsubscribe = null;
     this.state = {
       email: '',
       password: '',
@@ -31,6 +32,7 @@ class Login extends Component {
         doc, 
         email,
         password,
+        
       });
     });
     this.setState({
@@ -53,6 +55,8 @@ class Login extends Component {
     .auth()
     .signInWithEmailAndPassword(email, password).then(()=>{
       localStorage.setItem('email1',email)
+      console.log(localStorage);
+  
      this.props.history.push("/company");
       console.log("login sucessfully")
     }).catch((error) => {
@@ -77,6 +81,8 @@ class Login extends Component {
       autoComplete="email"
       margin="normal"
       variant="outlined"
+      value={email} 
+      onChange={this.handleInputChange}
       />
       </Grid>
       <Grid item sm={12} xs={12}>
@@ -87,17 +93,19 @@ class Login extends Component {
       autoComplete="current-password"
       margin="normal"
       variant="outlined"
+      value={password} 
+      onChange={this.handleInputChange}
       />
       </Grid>
       <Grid item sm={12} xs={12}>
-      <Button color="primary"  variant="contained" size="large">
+      <Button color="primary"  variant="contained" size="large" onClick={(event)=>this.handleSubmit(event)}>
         Login
       </Button>
       </Grid>
-      <Grid item sm={12}>
       <Divider />
+      <Grid item sm={12}>
       <div className="text-center">
-      New User? <Button color="primary">Sign Up</Button>
+      New User? <Button color="primary"><Link to="/create">Sign Up</Link></Button>
       </div>
       </Grid>
       </Grid>
@@ -105,11 +113,26 @@ class Login extends Component {
       </div>
       </div>
 
-      
+      <div className="panel panel-default">
+      <div className="panel-body">
+      <form onSubmit={this.handleSubmit}>
+      <div className="form-group">
+      <label htmlFor="email">Email:</label>
+      <input type="text" className="form-control" name="email" value={email} onChange={this.handleInputChange} placeholder="Email" />
+      </div>
+      <div className="form-group">
+      <label htmlFor="password">Password:</label>
+      <input type="password" className="form-control" name="password" value={password} onChange={this.handleInputChange} placeholder="Password" />
+      </div><br/>
+      <button type="submit" className="btn btn-success">Login</button>
+      </form>
+      </div>
+      </div>
       </div>
       );
     }
   }
 
   export default Login;
+
 

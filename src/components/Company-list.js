@@ -17,150 +17,6 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider'
 
-
-
-var dataSeries = [
-{
-	"date": "2014-01-01",
-	"value": 20000000
-},
-{
-	"date": "2014-03-19",
-	"value": 48027074
-},
-{
-	"date": "2014-03-20",
-	"value": 48927079
-},
-{
-	"date": "2014-03-21",
-	"value": 48727071
-},
-{
-	"date": "2014-03-22",
-	"value": 48127072
-},
-{
-	"date": "2014-03-23",
-	"value": 48527072
-},
-{
-	"date": "2014-03-24",
-	"value": 48627027
-},
-{
-	"date": "2014-03-25",
-	"value": 48027040
-},
-{
-	"date": "2014-03-26",
-	"value": 48027043
-},
-{
-	"date": "2014-03-27",
-	"value": 48057022
-},
-{
-	"date": "2014-03-28",
-	"value": 49057022
-},
-{
-	"date": "2014-03-29",
-	"value": 50057022
-},
-{
-	"date": "2014-03-30",
-	"value": 51057022
-},
-{
-	"date": "2014-03-31",
-	"value": 52057022
-},
-{
-	"date": "2014-04-01",
-	"value": 53057022
-},
-{
-	"date": "2014-04-02",
-	"value": 54057022
-},
-{
-	"date": "2014-04-03",
-	"value": 52057022
-},
-{
-	"date": "2014-04-04",
-	"value": 55057022
-},
-{
-	"date": "2014-04-05",
-	"value": 58270783
-},
-{
-	"date": "2014-04-06",
-	"value": 56270783
-},
-{
-	"date": "2014-04-07",
-	"value": 55270783
-},
-{
-	"date": "2014-04-08",
-	"value": 58270783
-},
-{
-	"date": "2014-04-09",
-	"value": 59270783
-},
-{
-	"date": "2014-04-10",
-	"value": 60270783
-},
-{
-	"date": "2014-04-11",
-	"value": 61270783
-},
-{
-	"date": "2014-04-12",
-	"value": 62270783
-},
-{
-	"date": "2014-04-13",
-	"value": 63270783
-},
-{
-	"date": "2014-04-14",
-	"value": 64270783
-},
-{
-	"date": "2014-04-15",
-	"value": 65270783
-},
-{
-	"date": "2014-04-16",
-	"value": 66270783
-},
-{
-	"date": "2014-04-17",
-	"value": 67270783
-},
-{
-	"date": "2014-04-18",
-	"value": 68270783
-},
-]
-
-
-
-
-
-var ts2 = 1484418600000;
-var dates = [];
-for (var i = 0; i < dataSeries.length; i++) {
-	ts2 = ts2 + 86400000;
-	var innerArr = [ts2, dataSeries[i].value];
-	dates.push(innerArr)
-}
 class Companylist extends Component {
 	constructor(props) {
 		super(props);
@@ -170,88 +26,15 @@ class Companylist extends Component {
 			companyData: [],
 			array: [],
 			grapharray: [],
-			options: {
-				chart: {
-					stacked: false,
-					zoom: {
-						type: 'x',
-						enabled: true
-					},
-					toolbar: {
-						autoSelected: 'zoom'
-					}
-				},
-				plotOptions: {
-					line: {
-						curve: 'smooth',
-					}
-				},
-				dataLabels: {
-					enabled: false
-				},
-
-				markers: {
-					size: 0,
-					style: 'full',
-				},
-				colors: ['#ff3333'],
-				title: {
-					text: 'Stock Price Movement',
-					align: 'left'
-				},
-				fill: {
-					type: 'gradient',
-					gradient: {
-						shadeIntensity: 1,
-						inverseColors: false,
-						opacityFrom: 0.5,
-						opacityTo: 0,
-						stops: [0, 90, 100]
-					},
-				},
-				yaxis: {
-					min: 20000000,
-					max: 250000000,
-					labels: {
-						formatter: function (val) {
-							return (val / 1000000).toFixed(0);
-						},
-					},
-					title: {
-						text: 'Price'
-					},
-				},
-				xaxis: {
-					type: 'datetime',
-				},
-
-				tooltip: {
-					shared: false,
-					y: {
-						formatter: function (val) {
-							return (val / 1000000).toFixed(0)
-						}
-					}
-				}
-			},
-			series: [{
-				name: 'XYZ MOTORS',
-				data: dates
-			}],
-
-			
 		};
 		this.getCompany = this.getCompany.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-		// this.generateDataPoints = this.generateDataPoints.bind(this);
 	}
 	
 
 	componentDidMount() {
 		this.getCompany();
 		this.unsubscribe = this.ref.onSnapshot(this.getCompany);
-
-
 	}
 
 	getCompany(){
@@ -273,26 +56,26 @@ class Companylist extends Component {
 			});
 			if (companyData.length) {
 				console.log('found data', companyData);
-				setTheSeate(companyData);
+				setTheState(companyData);
 			}
 		}).catch(function(error) {
 			console.log("Error getting documents: ", error);
 		});
 
-		var setTheSeate = (companyData) =>{
+		var setTheState = (companyData) =>{
 			this.setState({
 				companyData: companyData,
 			})
 		}
 	}	
 
-	delete(id){
-		console.log("id:",id);
+	deleteCompany(id){
 		firebase.firestore().collection('company').doc(id).delete().then(() => {
+			// alert('Company successfully deleted!')
 			console.log("Document successfully deleted!");
 			this.props.history.push("/company-list")
 		}).catch((error) => {
-			console.error("Error removing document: ", error);
+			console.log("Error removing document: ", error);
 		});
 	}	
 
@@ -320,11 +103,7 @@ class Companylist extends Component {
 			this.setState({
 				grapharray: grapharray
 			})
-			// this.setState(prevState =>({
-				// 	array: [...prevState.array, res]
-				// }))  
-				// console.log("data====>",this.state.array['0']['Time Series (5min)']['2019-05-23 14:10:00']);
-			}).catch(error => console.log('hello error: ', error));
+		}).catch(error => console.log('hello error: ', error));
 		axios.get(url, (error, response) => {
 			console.log('error: ', error);
 			console.log('response: ', response);
@@ -336,14 +115,17 @@ class Companylist extends Component {
 		if (this.state.grapharray.length) {
 			console.log('hey i m called');
 			var dataSeries = this.state.grapharray;
+			console.log("length:",dataSeries.length);
 			var ts2 = 1484418600000;
 			var dates = [];
 			for (var i = 0; i < dataSeries.length; i++) {
 				ts2 = ts2 + 86400000;
-				console.log('der ', dataSeries[i].open)
-				var innerArr = [ts2, dataSeries[i].open];
+				// console.log('der ', dataSeries[i].volume)
+				var obj = JSON.parse(dataSeries[i].volume)
+				var innerArr = [ts2,obj];
 				dates.push(innerArr)
 			}
+			console.log("dates:",dates);
 			let  options ={
 				chart: {
 					stacked: false,
@@ -384,11 +166,11 @@ class Companylist extends Component {
 					},
 				},
 				yaxis: {
-					min: 20000000,
-					max: 250000000,
+					min: 0,
+					max: 250000,
 					labels: {
 						formatter: function (val) {
-
+							return (val).toFixed(0);
 						},
 					},
 					title: {
@@ -403,27 +185,27 @@ class Companylist extends Component {
 					shared: false,
 					y: {
 						formatter: function (val) {
-
+							return (val/1000).toFixed(0)
 						}
 					}
 				}
 			}
 			let series = [{
-				name: 'XYZ MOTORS',
+				name: 'Stock price',
 				data: dates
-			}]
+			},
+			]
 
 			console.log('series: ', this.state.series);
+			console.log('after series: ', series);
 			console.log('options: ', this.state.options);
-
-			console.log('series: ', series);
-			console.log('options: ', options);
+			console.log('after options: ', options);
 			var chartrender = <div id="chart">
-			<ReactApexChart options={this.state.options} series={this.state.series} type="area" height="350" />
+			<ReactApexChart options={options} series={series} type="area" height="350" />
 			</div>
 		}
-
 		return (
+<<<<<<< HEAD
 			<div className="grid_class1">
 			<div className="company_list">
 			<h3>Company List</h3>
@@ -547,12 +329,42 @@ class Companylist extends Component {
 
 				// </div>
 				)
+=======
+			<div className="container">
+			{chartrender ? chartrender : ''}
+			<div className="panel panel-default">
+			<div className="panel-heading">
+			<h3 className="panel-title">
+			Company LIST
+			</h3>
+			</div>
+			<div className="panel-body">
+			<table className="table table-stripe">
+			<thead>
+			<tr>
+			<th>Name</th>
+			<th>Symbol</th>
+			<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
+			{this.state.companyData.map(company =>
+				<tr key={company.key}>
+				<td>{company.name}</td>
+				<td onClick={() =>this.handleClick(company.symbol)}>{company.symbol}</td>
+				<td><button onClick={this.deleteCompany.bind(this, company.key)}>Remove Company</button></td>
+				</tr>
+				)}
+			</tbody>
+			</table>
+			</div>
+			</div>
+			</div>
+			)
+>>>>>>> ef38bc0d78448a45b3be5c1f17e32037fa64325b
 	}
 }
 
 
 
 export default Companylist
-
-// 483:491
-// 963:972
