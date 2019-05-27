@@ -2,7 +2,21 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import ReactApexChart from 'react-apexcharts'
 import axios from 'axios';
+import './company-list.css';
 import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Divider from '@material-ui/core/Divider'
+
 
 
 var dataSeries = [
@@ -410,39 +424,129 @@ class Companylist extends Component {
 		}
 
 		return (
-			<div className="container">
-			(this.state.grapharray.length) 
-			{chartrender ? chartrender : ''}
-			<div className="panel panel-default">
-			<div className="panel-heading">
-			<h3 className="panel-title">
-			Company LIST
-			</h3>
-			</div>
-			<div className="panel-body">
-			<table className="table table-stripe">
-			<thead>
-			<tr>
-			<th>Name</th>
-			<th>Symbol</th>
-			<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
-			{this.state.companyData.map(company =>
-				<tr key={company.key}>
-				<td>{company.name}</td>
-				<td onClick={() =>this.handleClick(company.symbol)}>{company.symbol}</td>
-				<td><button onClick={this.delete.bind(this, company.key)}>Remove Company</button></td>
-				</tr>
-				)}
-			</tbody>
-			</table>
-			</div>
-			</div>
+			<div className="grid_class1">
+			<div className="company_list">
+			<h3>Company List</h3>
+			<List >
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
 
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			<DeleteIcon />
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			</List>
 			</div>
-			)
+			<div className="graph_list">
+			<h4>Graph</h4>
+			</div>
+			</div>
+			// <div className="container">
+			// (this.state.grapharray.length) 
+			// {chartrender ? chartrender : ''}
+			// <div className="panel panel-default">
+			// <div className="panel-heading">
+			// <h3 className="panel-title">
+			// Company LIST
+			// </h3>
+			// </div>
+			// <div className="panel-body">
+			// <table className="table table-stripe">
+			// <thead>
+			// <tr>
+			// <th>Name</th>
+			// <th>Symbol</th>
+			// <th>Action</th>
+			// </tr>
+			// </thead>
+			// <tbody>
+			// {this.state.companyData.map(company =>
+				// 	<tr key={company.key}>
+				// 	<td>{company.name}</td>
+				// 	<td onClick={() =>this.handleClick(company.symbol)}>{company.symbol}</td>
+				// 	<td><button onClick={this.delete.bind(this, company.key)}>Remove Company</button></td>
+				// 	</tr>
+				// 	)}
+				// </tbody>
+				// </table>
+				// </div>
+				// </div>
+
+				// </div>
+				)
 	}
 }
 

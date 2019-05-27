@@ -1,0 +1,41 @@
+.grid_class1{
+	display: flex;
+	background-image: url("main_bgimage.jpg");
+	height: 100vh;
+	width: 100%;
+	background-size: cover;
+	color: white;
+}
+.grid_class{
+	background-image: url("main_bgimage.jpg");
+	height: 100vh;
+	width: 100%;
+	background-size: cover;
+	color: white;
+}
+.company_list{
+	max-width: 375px;
+	width: 375px;
+	border-right: 1px solid lightgray;
+	height: 100vh;
+	overflow: auto;
+}
+.graph_list{
+	width: calc(100% - 375px);
+	max-width: calc(100% - 375px);
+}
+.MuiTypography-colorTextSecondary {
+    color: #d5d5d3b5!important;
+}
+.MuiIconButton-root{
+	    color: rgb(218, 151, 151)!important;
+}
+.MuiDivider-root {
+    background-color: #626476!important;
+}
+
+@media (max-width: 575px){
+	/*.graph_list{
+		display:none;
+	}*/
+}

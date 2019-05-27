@@ -2,6 +2,20 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import firebase from '../Firebase';
+import '../App.css';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Divider from '@material-ui/core/Divider'
+
 
 // import Suggestions from './components/Suggestions'
 // import { FaPlus} from 'react-icons/fa';
@@ -114,25 +128,90 @@ class Suggestions extends Component {
 		if(this.state.searchResponse){
 			console.log("--if call--",this.state.searchResponse);
 			return(
-				<div className="container">
-				<table className="table table-stripe">
-				<thead>
-				<tr>
-				<th>Company</th>
-				<th>Symbol</th>
-				</tr>
-				</thead>
-				<tbody>
-				{this.state.searchResponse.map(data =>
-					<tr>
-					<td><button>{data['2. name']}</button></td>
-					<td><button onClick={() =>this.handleClick1(data)} >{data['1. symbol']}</button></td>
-					</tr>
-					)}
-				</tbody>
-				</table>
 
-				</div>
+				<List >
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			+
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			+
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			+
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			+
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			+
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			<ListItem>
+			<ListItemText primary="ABC" secondary="ABCO Energy Inc" />
+			<ListItemSecondaryAction>
+			<IconButton edge="end" aria-label="Delete">
+			+
+			</IconButton>
+			</ListItemSecondaryAction>
+			</ListItem>
+			<Divider />
+
+			</List>
+
+				// <div className="container">
+				// <table className="table table-stripe">
+				// <thead>
+				// <tr>
+				// <th>Company</th>
+				// <th>Symbol</th>
+				// </tr>
+				// </thead>
+				// <tbody>
+				// {this.state.searchResponse.map(data =>
+				// 	<tr>
+				// 	<td><button>{data['2. name']}</button></td>
+				// 	<td><button onClick={() =>this.handleClick1(data)} >{data['1. symbol']}</button></td>
+				// 	</tr>
+				// 	)}
+				// </tbody>
+				// </table>
+
+				// </div>
 				)
 		}else{
 			console.log("No data found");
@@ -168,16 +247,25 @@ class Suggestions extends Component {
 		console.log("user=-============>",this.state.user);
 		return (
 
-			<div className="container">
-
-			<h1 className="content" style={{textAlign: 'center'}}>Welcome, Home!</h1>
-			<center>
+			<div className="grid_class">
+			<div className="header_class">
+			<span>Welcome Home....</span>
+			</div>
+			<div className="search">
 			<form onSubmit={this.handleSubmit}>
-			<label>Company: </label>
-			<input type="text" value={this.state.value} onChange={this.handleChange} />
-			<input type="submit" value="Submit"/>
+			<Input
+			placeholder="Search Company"
+			inputProps={{
+				'aria-label': 'Description',
+			}}
+			value={this.state.value}
+			onChange={this.handleChange}
+			/>
+			<Button varient="filed" color="primary" type="submit">
+				search
+			</Button>
 			</form>
-			</center>
+			</div>
 			{this.displayData()}
 			{this.addComapny()}
 			</div>

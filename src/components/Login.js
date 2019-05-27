@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
+import './login.css';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
 // import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -61,22 +66,50 @@ class Login extends Component {
   render() {
     const {email, password} = this.state;
     return (
-      <div className="container">
-      <div className="panel panel-default">
-      <div className="panel-body">
-      <form onSubmit={this.handleSubmit}>
-      <div className="form-group">
-      <label htmlFor="email">Email:</label>
-      <input type="text" className="form-control" name="email" value={email} onChange={this.handleInputChange} placeholder="Email" />
+
+      <div>
+      <div className="backgroung_class">
+      <div className="main_class">
+      <h1 className="text-center">Stock Login</h1>
+      <Grid container spacing={12} xs={12}>
+      <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-email-input"
+      label="Email"
+      type="email"
+      name="email"
+      autoComplete="email"
+      margin="normal"
+      variant="outlined"
+      />
+      </Grid>
+      <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-password-input"
+      label="Password"
+      type="password"
+      autoComplete="current-password"
+      margin="normal"
+      variant="outlined"
+      />
+      </Grid>
+      <Grid item sm={12} xs={12}>
+      <Button color="primary"  variant="contained" size="large">
+        Login
+      </Button>
+      </Grid>
+      <Grid item sm={12}>
+      <Divider />
+      <div className="text-center">
+      New User? <Button color="primary">Sign Up</Button>
       </div>
-      <div className="form-group">
-      <label htmlFor="password">Password:</label>
-      <input type="password" className="form-control" name="password" value={password} onChange={this.handleInputChange} placeholder="Password" />
-      </div><br/>
-      <button type="submit" className="btn btn-success">Login</button>
-      </form>
+      </Grid>
+      </Grid>
+      
       </div>
       </div>
+
+      
       </div>
       );
     }
