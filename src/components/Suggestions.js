@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import firebase from '../Firebase';
+import swal from 'sweetalert';
+
 
 class Suggestions extends Component {
 	constructor(props) {
@@ -102,7 +104,8 @@ class Suggestions extends Component {
 			console.log("data1:",companyData.length);
 			if (companyData.length) {
 				console.log('found data', companyData);
-				alert("already added");
+				// swal("already added");
+				swal("Already added!","", "info");
 			} else{
 				console.log("new company");
 				addCompany1()
@@ -170,20 +173,20 @@ class Suggestions extends Component {
 		.then((data)=>{
 			this.setState({
 				searchResponse: data.data['bestMatches']});
-			const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+this.state.companySymbol+"&name=apple&interval=5min&apikey= Z51NHQ9W28LJMOHB";
-			fetch(url)
-			.then(res => res.json())
-			.then(res => {console.log(res); return res;})
-			.then(res => {
-				this.setState(prevState =>({
-					array: [...prevState.array, res]
-				}))  
-				console.log("data====>",this.state.array);
-			}).catch(error => console.log('hello error: ', error));
-			axios.get(url, (error, response) => {
-				console.log('error: ', error);
-				console.log('response: ', response);
-			});
+			// const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+this.state.companySymbol+"&name=apple&interval=5min&apikey= Z51NHQ9W28LJMOHB";
+			// fetch(url)
+			// .then(res => res.json())
+			// .then(res => {console.log(res); return res;})
+			// .then(res => {
+			// 	this.setState(prevState =>({
+			// 		array: [...prevState.array, res]
+			// 	}))  
+			// 	console.log("data====>",this.state.array);
+			// }).catch(error => console.log('hello error: ', error));
+			// axios.get(url, (error, response) => {
+			// 	console.log('error: ', error);
+			// 	console.log('response: ', response);
+			// });
 
 		})
 	}
