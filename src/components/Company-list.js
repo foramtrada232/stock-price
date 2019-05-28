@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import ReactApexChart from 'react-apexcharts'
 import axios from 'axios';
-import './company-list.css';
+import './Company-list.css';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -205,7 +205,6 @@ class Companylist extends Component {
 			</div>
 		}
 		return (
-<<<<<<< HEAD
 			<div className="grid_class1">
 			<div className="company_list">
 			<h3>Company List</h3>
@@ -329,39 +328,36 @@ class Companylist extends Component {
 
 				// </div>
 				)
-=======
-			<div className="container">
-			{chartrender ? chartrender : ''}
-			<div className="panel panel-default">
-			<div className="panel-heading">
-			<h3 className="panel-title">
-			Company LIST
-			</h3>
-			</div>
-			<div className="panel-body">
-			<table className="table table-stripe">
-			<thead>
-			<tr>
-			<th>Name</th>
-			<th>Symbol</th>
-			<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
-			{this.state.companyData.map(company =>
-				<tr key={company.key}>
-				<td>{company.name}</td>
-				<td onClick={() =>this.handleClick(company.symbol)}>{company.symbol}</td>
-				<td><button onClick={this.deleteCompany.bind(this, company.key)}>Remove Company</button></td>
-				</tr>
-				)}
-			</tbody>
-			</table>
-			</div>
-			</div>
-			</div>
-			)
->>>>>>> ef38bc0d78448a45b3be5c1f17e32037fa64325b
+			// <div className="container">
+			// {chartrender ? chartrender : ''}
+			// <div className="panel panel-default">
+			// <div className="panel-heading">
+			// <h3 className="panel-title">
+			// Company LIST
+			// </h3>
+			// </div>
+			// <div className="panel-body">
+			// <table className="table table-stripe">
+			// <thead>
+			// <tr>
+			// <th>Name</th>
+			// <th>Symbol</th>
+			// <th>Action</th>
+			// </tr>
+			// </thead>
+			// <tbody>
+			// {this.state.companyData.map(company =>
+			// 	<tr key={company.key}>
+			// 	<td>{company.name}</td>
+			// 	<td onClick={() =>this.handleClick(company.symbol)}>{company.symbol}</td>
+			// 	<td><button onClick={this.deleteCompany.bind(this, company.key)}>Remove Company</button></td>
+			// 	</tr>
+			// 	)}
+			// </tbody>
+			// </table>
+			// </div>
+			// </div>
+			// </div>
 	}
 }
 

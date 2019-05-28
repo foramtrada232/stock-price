@@ -60,7 +60,7 @@ class Create extends Component {
       }).catch((error) => {
         console.log("error===========>",error);
       });
-    }
+    };
 
   render() {
     const { email, password, username, createdAt } = this.state;
@@ -155,41 +155,41 @@ class Create extends Component {
       // </div>
       // </div>
       );
-    render() {
-      const { email, password, username, createdAt } = this.state;
-      return (
-        <div className="container">
+    // render() {
+    //   const { email, password, username, createdAt } = this.state;
+    //   return (
+    //     <div className="container">
        
-        <div className="panel panel-default">
-        <div className="panel-body">
-        <form onSubmit={this.onSubmit}>
-        <div className="form-group">
-        <label htmlFor="email">Email:</label>
-        <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
-        </div>
-        <div className="form-group">
-        <label htmlFor="password">Password:</label>
-        <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
-        </div>
-        <div className="form-group">
-        <label htmlFor="username">UserName:</label>
-        <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
-        </div>
-        <div className="form-group">
-        <label htmlFor="createdAt">created:</label>
-        <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
-        </div>
+    //     <div className="panel panel-default">
+    //     <div className="panel-body">
+    //     <form onSubmit={this.onSubmit}>
+    //     <div className="form-group">
+    //     <label htmlFor="email">Email:</label>
+    //     <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
+    //     </div>
+    //     <div className="form-group">
+    //     <label htmlFor="password">Password:</label>
+    //     <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
+    //     </div>
+    //     <div className="form-group">
+    //     <label htmlFor="username">UserName:</label>
+    //     <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
+    //     </div>
+    //     <div className="form-group">
+    //     <label htmlFor="createdAt">created:</label>
+    //     <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
+    //     </div>
 
-        <button type="submit" className="btn btn-success">Sign up</button>
+    //     <button type="submit" className="btn btn-success">Sign up</button>
 
-        </form>
-        </div>
-        </div>
-        </div>
-        );
-    }
+    //     </form>
+    //     </div>
+    //     </div>
+    //     </div>
+    //     );
+    // }
   }
-
+}
   export default Create;
 
 
