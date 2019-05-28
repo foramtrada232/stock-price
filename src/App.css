@@ -1,46 +1,24 @@
-.App {
-  text-align: center;
+body *{
+	box-sizing: border-box;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+::placeholder{
+	color: white;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.header_class{
+	text-align: center;
 }
-
-.App-link {
-  color: #61dafb;
+.header_class span{
+	font-size: 44px;
+	margin-bottom: 20px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.search{
+	width: 400px;
+    margin: 70px auto;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow: 1px 1px 10px 0px #979595;
+    padding: 15px;
 }
-
-.table2 table{
-  border: 1px solid black;
-}
-
-card{
-  border: 1px solid black;
-}
-.hello{
-  text-align: center;
-  color: blue;
-  margin-bottom: 20px;  
-}
+/*.MuiInputBase-input{
+	color: white!important;
+}*/

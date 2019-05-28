@@ -24,7 +24,6 @@ ReactDOM.render(
   <Route path='/login' component={Login} />
   <Route path='/company' component={Suggestions} />
   <Route path='/company-list' component={Companylist} />
- 
   </div>
   </Router>,
   document.getElementById('root')

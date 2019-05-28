@@ -2,7 +2,18 @@ import React, { Component } from 'react';
 import firebase from '../Firebase';
 import ReactApexChart from 'react-apexcharts'
 import axios from 'axios';
-import './Company-list.css';
+import './company-list.css';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { Link } from 'react-router-dom';
+
 
 class Companylist extends Component {
 	constructor(props) {
@@ -17,7 +28,6 @@ class Companylist extends Component {
 		this.getCompany = this.getCompany.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
-	
 
 	componentDidMount() {
 		this.getCompany();
@@ -58,7 +68,7 @@ class Companylist extends Component {
 
 	deleteCompany(id){
 		firebase.firestore().collection('company').doc(id).delete().then(() => {
-			// alert('Company successfully deleted!')
+			alert('Company successfully deleted!')
 			console.log("Document successfully deleted!");
 			this.props.history.push("/company-list")
 		}).catch((error) => {
@@ -95,8 +105,14 @@ class Companylist extends Component {
 			console.log('error: ', error);
 			console.log('response: ', response);
 		});
-		
 	}	
+
+	// logOut(){
+	// 	localStorage.getItem('email1')
+	// 	console.log(localStorage);
+	// 	localStorage.clear()
+	// 	console.log(localStorage);
+	// }
 
 	render() {
 		if (this.state.grapharray.length) {
@@ -167,7 +183,6 @@ class Companylist extends Component {
 				xaxis: {
 					type: 'datetime',
 				},
-
 				tooltip: {
 					shared: false,
 					y: {
@@ -192,37 +207,30 @@ class Companylist extends Component {
 			</div>
 		}
 		return (
-			<div className="container">
-			{chartrender ? chartrender : ''}
-			<div className="panel panel-default">
-			<div className="panel-heading">
-			<h3 className="panel-title">
-			Company LIST
-			</h3>
-			</div>
-			<div className="panel-body">
-			<table className="table table-stripe">
-			<thead>
-			<tr>
-			<th>Name</th>
-			<th>Symbol</th>
-			<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
+			<div className="grid_class1">
+			<div className="company_list">
+			<h3>Company List</h3>
 			{this.state.companyData.map(company =>
-				<tr key={company.key}>
-				<td>{company.name}</td>
-				<td onClick={() =>this.handleClick(company.symbol)}>{company.symbol}</td>
-				<td><button onClick={this.deleteCompany.bind(this, company.key)}>Remove Company</button></td>
-				</tr>
+				<List  key={company.key}>
+				<ListItem onClick={() =>this.handleClick(company.symbol)}>
+				<ListItemText primary={company.symbol} secondary={company.name}/>
+				<ListItemSecondaryAction>
+				<IconButton edge="end" aria-label="Delete" onClick={this.deleteCompany.bind(this, company.key)}>
+				<DeleteIcon />
+				</IconButton>
+				</ListItemSecondaryAction>
+				</ListItem>
+				<Divider />
+				</List>
 				)}
-			</tbody>
-			</table>
+		
+			</div>
+			<div className="graph_list">
+			<h4>Graph</h4>
+			{chartrender ? chartrender : ''}
 			</div>
 			</div>
-			</div>
-			)
+				)
 	}
 }
 

@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import firebase from '../Firebase';
+import NavBarNPM from 'reactjs-navigation';
 import swal from 'sweetalert';
+import '../App.css';
+import './company-list.css';
+import Input from '@material-ui/core/Input';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 
 class Suggestions extends Component {
@@ -28,7 +42,6 @@ class Suggestions extends Component {
 		this.handleClick1 = this.handleClick1.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-
 	}
 	handleChange(event) {
 		this.setState({value: event.target.value});
@@ -73,11 +86,15 @@ class Suggestions extends Component {
 		console.log("addCompany:",this.state.companySymbol)
 		if (this.state.companySymbol) {
 			return(
-				<div className="hello">
-				<p>{this.state.companySymbol}</p>
-				<p>{this.state.companyName}</p>
-				<button onClick={() =>this.updateCompany(this.state.companyName)}><Link to="/company-list"> Add Company </Link></button>
-				</div>
+				swal({
+					title: this.state.companySymbol,
+					text: this.state.companyName,
+					icon: "success",
+					buttons: true,
+					dangerMode: true,
+				}).then((willDelete) => {
+					{this.updateCompany(this.state.companyName)}
+				})
 				)
 		}
 	}
@@ -104,7 +121,6 @@ class Suggestions extends Component {
 			console.log("data1:",companyData.length);
 			if (companyData.length) {
 				console.log('found data', companyData);
-				// swal("already added");
 				swal("Already added!","", "info");
 			} else{
 				console.log("new company");
@@ -126,15 +142,13 @@ class Suggestions extends Component {
 					email: email
 				});
 				console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
+				this.props.history.push("/company-list");
 			})
 			.catch((error) => {
 				console.error("Error adding document: ", error);
 			})
-
 		}
-
 	}
-
 	
 
 	displayData(){
@@ -143,23 +157,19 @@ class Suggestions extends Component {
 			console.log("--if call--",this.state.searchResponse);
 			return(
 				<div className="container">
-				<table className="table table-stripe">
-				<thead>
-				<tr>
-				<th>Company</th>
-				<th>Symbol</th>
-				</tr>
-				</thead>
-				<tbody>
-				{this.state.searchResponse.map(data =>
-					<tr>
-					<td><button>{data['2. name']}</button></td>
-					<td><button onClick={() =>this.handleClick1(data)} >{data['1. symbol']}</button></td>
-					</tr>
+				{this.state.searchResponse.map(data =>	
+					<List >
+					<ListItem>
+					<ListItemText primary={data['1. symbol']} secondary={data['2. name']} />
+					<ListItemSecondaryAction>
+					<IconButton edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} >
+					+
+					</IconButton>
+					</ListItemSecondaryAction>
+					</ListItem>
+					<Divider />
+					</List>
 					)}
-				</tbody>
-				</table>
-
 				</div>
 				)
 		}else{
@@ -191,26 +201,33 @@ class Suggestions extends Component {
 		})
 	}
 
-
 	render() {
 		console.log("user=-============>",this.state.user);
 		return (
-
-			<div className="container">
-
-			<h1 className="content" style={{textAlign: 'center'}}>Welcome, Home!</h1>
-			<center>
+			<div>
+			<div className="grid_class">
+			<div className="header_class">
+			<span>Welcome Home....</span>
+			</div>
+			<div className="search">
 			<form onSubmit={this.handleSubmit}>
-			<label>Company: </label>
-			<input type="text" value={this.state.value} onChange={this.handleChange} />
-			<input type="submit" value="Submit"/>
+			<Input
+			placeholder="Search Company"
+			inputProps={{
+				'aria-label': 'Description',
+			}}
+			value={this.state.value}
+			onChange={this.handleChange}
+			/>
+			<Button varient="filed" color="primary" type="submit">
+				search
+			</Button>
 			</form>
-			</center>
+			</div>
 			{this.displayData()}
 			{this.addComapny()}
-
 			</div>
-
+			</div>
 			)
 	}
 }
@@ -218,3 +235,4 @@ class Suggestions extends Component {
 
 
 export default Suggestions
+
