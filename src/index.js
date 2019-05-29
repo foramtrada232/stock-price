@@ -10,8 +10,7 @@ import Show from './components/Show';
 import Login from './components/Login';
 import Suggestions from './components/Suggestions';
 import Companylist from './components/Company-list';
-
-
+import CustomizedDialogs from './components/demo1';
 
 
 ReactDOM.render(
@@ -24,6 +23,7 @@ ReactDOM.render(
   <Route path='/login' component={Login} />
   <Route path='/company' component={Suggestions} />
   <Route path='/company-list' component={Companylist} />
+  <Route path='/demo' component={CustomizedDialogs} />
   </div>
   </Router>,
   document.getElementById('root')

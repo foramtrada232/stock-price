@@ -10,10 +10,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { Link } from 'react-router-dom';
-
 
 class Companylist extends Component {
 	constructor(props) {

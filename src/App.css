@@ -19,6 +19,6 @@ body *{
     box-shadow: 1px 1px 10px 0px #979595;
     padding: 15px;
 }
-/*.MuiInputBase-input{
-	color: white!important;
-}*/
+.MuiInputBase-input{
+	color: lemonchiffon!important;
+}

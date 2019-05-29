@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import { Link } from 'react-router-dom';
 
 
-
 class Create extends Component {
 
   constructor() {
@@ -30,7 +29,6 @@ class Create extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const {email, password, username } = this.state;
-
     this.ref.add({
       email,
       password,
@@ -39,7 +37,6 @@ class Create extends Component {
       isDeleted:false,
       updatedAt:Date.now(),
       company:[]
-
     }).then((docRef) => {
       this.setState({
         email: '',
@@ -111,7 +108,6 @@ class Create extends Component {
       onChange={this.onChange}
       />
       </Grid>
-     
       <Grid item sm={12} xs={12}>
       <Button color="primary"  variant="contained" size="large" onClick={(e)=>this.onSubmit(e)}>
         SignUp
@@ -128,81 +124,7 @@ class Create extends Component {
       </div>
       </div>
       </div>
-      // <div className="container">
-      // <div className="panel panel-default">
-      // <div className="panel-body">
-      // <form onSubmit={this.onSubmit}>
-      // <div className="form-group">
-      // <label htmlFor="email">Email:</label>
-      // <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
-      // </div>
-      // <div className="form-group">
-      // <label htmlFor="password">Password:</label>
-      // <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
-      // </div>
-      // <div className="form-group">
-      // <label htmlFor="username">UserName:</label>
-      // <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
-      // </div>
-      // <div className="form-group">
-      // <label htmlFor="createdAt">created:</label>
-      // <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
-      // </div>
-
-      // <button type="submit" className="btn btn-success">Sign up</button>
-
-      // </form>
-      // </div>
-      // </div>
-      // </div>
       );
-    // render() {
-    //   const { email, password, username, createdAt } = this.state;
-    //   return (
-    //     <div className="container">
-       
-    //     <div className="panel panel-default">
-    //     <div className="panel-body">
-    //     <form onSubmit={this.onSubmit}>
-    //     <div className="form-group">
-    //     <label htmlFor="email">Email:</label>
-    //     <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
-    //     </div>
-    //     <div className="form-group">
-    //     <label htmlFor="password">Password:</label>
-    //     <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
-    //     </div>
-    //     <div className="form-group">
-    //     <label htmlFor="username">UserName:</label>
-    //     <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
-    //     </div>
-    //     <div className="form-group">
-    //     <label htmlFor="createdAt">created:</label>
-    //     <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
-    //     </div>
-
-    //     <button type="submit" className="btn btn-success">Sign up</button>
-
-    //     </form>
-    //     </div>
-    //     </div>
-    //     </div>
-    //     );
-    // }
   }
 }
   export default Create;
-
-
-  // <Grid item sm={12} xs={12}>
-  //     <TextField
-  //     id="outlined-password-input"
-  //     label="Password"
-  //     type="password"
-  //     autoComplete="current-password"
-  //     margin="normal"
-  //     variant="outlined"
-  //     value={this.state.password}
-  //     onChange={this.onChange}
-  //     />
-  //     </Grid>

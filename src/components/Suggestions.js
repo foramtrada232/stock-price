@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router} from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import firebase from '../Firebase';
-import NavBarNPM from 'reactjs-navigation';
+import ReactApexChart from 'react-apexcharts';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 import '../App.css';
 import './company-list.css';
 import Input from '@material-ui/core/Input';
@@ -15,11 +14,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 
 class Suggestions extends Component {
+
 	constructor(props) {
 		super(props);
 		this.ref = firebase.firestore().collection('company');
@@ -37,12 +37,16 @@ class Suggestions extends Component {
 			companyName: '',
 			symbol: '',
 			name: '',
-			userEmail: ''
+			userEmail: '',
+			grapharray: []	
 		};
 		this.handleClick1 = this.handleClick1.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.getCompany = this.getCompany.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
+
 	handleChange(event) {
 		this.setState({value: event.target.value});
 	}
@@ -66,6 +70,7 @@ class Suggestions extends Component {
 			}
 		})
 	}
+
 	handleClick1(data) {
 		console.log('data: ', data);
 		this.setState({companySymbol: data['1. symbol'],companyName: data['2. name']});
@@ -98,6 +103,7 @@ class Suggestions extends Component {
 				)
 		}
 	}
+
 	updateCompany(companyName){
 		console.log('updatecompany:');
 		localStorage.getItem('email1')
@@ -142,39 +148,11 @@ class Suggestions extends Component {
 					email: email
 				});
 				console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
-				this.props.history.push("/company-list");
+				// this.props.history.push("/company-list");
 			})
 			.catch((error) => {
 				console.error("Error adding document: ", error);
 			})
-		}
-	}
-	
-
-	displayData(){
-		console.log(this.state.searchResponse)
-		if(this.state.searchResponse){
-			console.log("--if call--",this.state.searchResponse);
-			return(
-				<div className="container">
-				{this.state.searchResponse.map(data =>	
-					<List >
-					<ListItem>
-					<ListItemText primary={data['1. symbol']} secondary={data['2. name']} />
-					<ListItemSecondaryAction>
-					<IconButton edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} >
-					+
-					</IconButton>
-					</ListItemSecondaryAction>
-					</ListItem>
-					<Divider />
-					</List>
-					)}
-				</div>
-				)
-		}else{
-			console.log("No data found");
-			console.log(this.state.searchResponse);
 		}
 	}
 
@@ -183,35 +161,241 @@ class Suggestions extends Component {
 		.then((data)=>{
 			this.setState({
 				searchResponse: data.data['bestMatches']});
+			this.state.searchResponse = [];
 			// const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+this.state.companySymbol+"&name=apple&interval=5min&apikey= Z51NHQ9W28LJMOHB";
 			// fetch(url)
 			// .then(res => res.json())
 			// .then(res => {console.log(res); return res;})
 			// .then(res => {
-			// 	this.setState(prevState =>({
-			// 		array: [...prevState.array, res]
-			// 	}))  
-			// 	console.log("data====>",this.state.array);
-			// }).catch(error => console.log('hello error: ', error));
-			// axios.get(url, (error, response) => {
-			// 	console.log('error: ', error);
-			// 	console.log('response: ', response);
-			// });
+				// 	this.setState(prevState =>({
+					// 		array: [...prevState.array, res]
+					// 	}))  
+					// 	console.log("data====>",this.state.array);
+					// }).catch(error => console.log('hello error: ', error));
+					// axios.get(url, (error, response) => {
+						// 	console.log('error: ', error);
+						// 	console.log('response: ', response);
+						// });
 
-		})
+					})
+	}
+
+	componentDidMount() {
+		this.getCompany();
+		this.unsubscribe = this.ref.onSnapshot(this.getCompany);
+	}
+
+	getCompany(){
+		let companyData = [];
+		localStorage.getItem('email1')
+		let email = localStorage.email1;
+		console.log('email==========>',email);
+		firebase.firestore().collection("company").where("email", "==", email)
+		.get()
+		.then(function(querySnapshot) {
+			querySnapshot.forEach(function(doc) {
+				const { name, symbol } = doc.data();
+				companyData.push({
+					key: doc.id,
+					doc,
+					name,
+					symbol,
+				});
+			});
+			if (companyData.length) {
+				console.log('found data', companyData);
+				setTheState(companyData);
+			}
+		}).catch(function(error) {
+			console.log("Error getting documents: ", error);
+		});
+
+		var setTheState = (companyData) =>{
+			this.setState({
+				companyData: companyData,
+			})
+		}
+	}	
+
+	deleteCompany(id){
+		firebase.firestore().collection('company').doc(id).delete().then(() => {
+			alert('Company successfully deleted!')
+			console.log("Document successfully deleted!");
+			// this.props.history.push("/company-list")
+		}).catch((error) => {
+			console.log("Error removing document: ", error);
+		});
+	}	
+
+	handleClick(data) {
+		console.log('data: ', data);
+		let grapharray = [];
+		console.log("Time Series (5min):",data['Time Series (5min)']);
+		const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+data+"&name=apple&interval=5min&apikey= Z51NHQ9W28LJMOHB";
+		fetch(url)
+		.then(res => res.json())
+		.then(res => {console.log(res); return res;})
+		.then(res => {
+			const originalObject = res['Time Series (5min)'];
+			for (let key in originalObject) {
+				grapharray.push({
+					date: key,
+					open: originalObject[key]['1. open'],
+					high: originalObject[key]['2. high'],
+					low: originalObject[key]['3. low'],
+					close: originalObject[key]['4. close'],
+					volume: originalObject[key]['5. volume']
+				})
+			}
+			console.log('grapharray: ', grapharray);
+			this.setState({
+				grapharray: grapharray
+			})
+		}).catch(error => console.log('hello error: ', error));
+		axios.get(url, (error, response) => {
+			console.log('error: ', error);
+			console.log('response: ', response);
+		});
+	}	
+
+	logOut(){
+		firebase
+		.auth()
+		.signOut().then(function() {
+			console.log('Signed Out');
+			localStorage.getItem('email1i');
+			console.log(localStorage);
+			localStorage.removeItem('email1');
+			console.log(localStorage);
+		}, function(error) {
+			console.error('Sign Out Error', error);
+		});
 	}
 
 	render() {
-		console.log("user=-============>",this.state.user);
+		if (this.state.grapharray.length) {
+			console.log('hey i m called');
+			var dataSeries = this.state.grapharray;
+			console.log("length:",dataSeries.length);
+			var ts2 = 1484418600000;
+			var dates = [];
+			for (var i = 0; i < dataSeries.length; i++) {
+				ts2 = ts2 + 86400000;
+				// console.log('der ', dataSeries[i].volume)
+				var obj = JSON.parse(dataSeries[i].volume)
+				var innerArr = [ts2,obj];
+				dates.push(innerArr)
+			}
+			console.log("dates:",dates);
+			let  options ={
+				chart: {
+					stacked: false,
+					zoom: {
+						type: 'x',
+						enabled: true
+					},
+					toolbar: {
+						autoSelected: 'zoom'
+					}
+				},
+				plotOptions: {
+					line: {
+						curve: 'smooth',
+					}
+				},
+				dataLabels: {
+					enabled: false
+				},
+
+				markers: {
+					size: 0,
+					style: 'full',
+				},
+				colors: ['#000'],
+				title: {
+					text: 'Stock Price Movement',
+					align: 'left'
+				},
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shadeIntensity: 1,
+						inverseColors: false,
+						opacityFrom: 0.5,
+						opacityTo: 0,
+						stops: [0, 90, 100]
+					},
+				},
+				yaxis: {
+					min: 0,
+					max: 250000,
+					labels: {
+						formatter: function (val) {
+							return (val).toFixed(0);
+						},
+					},
+					title: {
+						text: 'Price'
+					},
+				},
+				xaxis: {
+					type: 'datetime',
+				},
+				tooltip: {
+					shared: false,
+					y: {
+						formatter: function (val) {
+							return (val/1000).toFixed(0)
+						}
+					}
+				}
+			}
+			let series = [{
+				name: 'Stock price',
+				data: dates
+			},
+			]
+			console.log('series: ', this.state.series);
+			console.log('after series: ', series);
+			console.log('options: ', this.state.options);
+			console.log('after options: ', options);
+			var chartrender = <div id="chart">
+			<ReactApexChart options={options} series={series} type="area" height="400" />
+			</div>
+			var showGraphOrSearchResult = this.state.searchResponse.length ? <div>
+			<center><h3>Search Response....</h3></center>
+			{this.state.searchResponse.map(data =>	
+				<List key={data['1. symbol']} className="list">
+				<ListItem>
+				<ListItemText className="search_list" primary={data['1. symbol']} secondary={data['2. name']} />
+				<ListItemSecondaryAction className="search_list1">
+				<IconButton color="primary" edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} className="addIcon">
+				+
+				</IconButton>
+				</ListItemSecondaryAction>
+				</ListItem>
+				<Divider />
+				</List>
+				)}
+			</div> : <div>
+			<center><h3>Graph</h3></center>
+			{chartrender ? chartrender : ''}
+			</div> 
+		}
 		return (
 			<div>
 			<div className="grid_class">
 			<div className="header_class">
 			<span>Welcome Home....</span>
 			</div>
+			<div className="logout">
+			<Button variant="contained" color="secondary"  onClick={()=>this.logOut()}>
+			<Link to="/">Logout</Link>
+			</Button>
+			</div>
 			<div className="search">
 			<form onSubmit={this.handleSubmit}>
-			<Input
+			<Input className="search_input"
 			placeholder="Search Company"
 			inputProps={{
 				'aria-label': 'Description',
@@ -219,18 +403,39 @@ class Suggestions extends Component {
 			value={this.state.value}
 			onChange={this.handleChange}
 			/>
-			<Button varient="filed" color="primary" type="submit">
-				search
+			<Button varient="filed" className="search_button" type="submit">
+			search
 			</Button>
 			</form>
 			</div>
-			{this.displayData()}
 			{this.addComapny()}
+			</div>
+			<div className="grid_class1">
+			<div className="company_list">
+			<h3>Company List</h3>
+			{this.state.companyData.map(company =>
+				<List key={company.key}>
+				<ListItem onClick={() =>this.handleClick(company.symbol)}>
+				<ListItemText primary={company.symbol} secondary={company.name}/>
+				<ListItemSecondaryAction>
+				<IconButton edge="end" aria-label="Delete" onClick={this.deleteCompany.bind(this, company.key)}>
+				<DeleteIcon />
+				</IconButton>
+				</ListItemSecondaryAction>
+				</ListItem>
+				<Divider />
+				</List>
+				)}
+			</div>
+			<div className="graph_list">
+			{showGraphOrSearchResult}
+			</div>
 			</div>
 			</div>
 			)
 	}
 }
+
 
 
 

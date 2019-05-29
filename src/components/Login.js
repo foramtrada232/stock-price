@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
-import '../components/login.css';
+import './login.css';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-// import { Link } from 'react-router-dom';
 
 class Login extends Component {
-
-
   constructor() {
     super();
     this.ref = firebase.firestore().collection('users');
@@ -19,7 +16,6 @@ class Login extends Component {
       user: [],
       array:[],
     };
-    
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -44,6 +40,7 @@ class Login extends Component {
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
   handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
@@ -59,6 +56,7 @@ class Login extends Component {
       console.log('hey error: ', error);
     })
   };
+
   render() {
     const {email, password} = this.state;
     return (
@@ -105,11 +103,8 @@ class Login extends Component {
       </div>
       </Grid>
       </Grid>
-      
       </div>
       </div>
-
-      
       </div>
       );
     }

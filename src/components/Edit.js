@@ -77,7 +77,6 @@ class Edit extends Component {
                 <label for="title">Password:</label>
                 <input type="text" class="form-control" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password" />
               </div>
-            
               <button type="submit" class="btn btn-success">Submit</button>
             </form>
           </div>
