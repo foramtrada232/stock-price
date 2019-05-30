@@ -1,6 +1,8 @@
 #chart{
-width: 100%;
+width: 98%;
 height: 100%;
+margin:10px;
+padding: 10px;
 }
 
 #chart, .chart-box {
@@ -102,6 +104,7 @@ margin: 20px auto;
 }
 .search_input{
 	color: lemonchiffon!important;
+	margin-bottom: 20px;
 }
 @media (max-width: 575px){
 .main_class{width: auto; padding: 25px;}
@@ -119,5 +122,11 @@ margin: 20px auto;
     margin-right: 300px;
 }
 .addIcon{
-	color: rgb(218, 151, 151);
+	background-color: rgb(218, 151, 151);
+}
+.search_form{
+	margin-bottom: 20px;
+}
+a{
+	text-decoration: none;
 }

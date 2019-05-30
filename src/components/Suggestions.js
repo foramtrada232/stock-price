@@ -3,7 +3,6 @@ import axios from 'axios';
 import firebase from '../Firebase';
 import ReactApexChart from 'react-apexcharts';
 import swal from 'sweetalert';
-import { Link } from 'react-router-dom';
 import '../App.css';
 import './company-list.css';
 import Input from '@material-ui/core/Input';
@@ -15,7 +14,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import AddIcon from '@material-ui/icons/Add';
 
 
 class Suggestions extends Component {
@@ -38,7 +37,7 @@ class Suggestions extends Component {
 			symbol: '',
 			name: '',
 			userEmail: '',
-			grapharray: []	
+			grapharray: []
 		};
 		this.handleClick1 = this.handleClick1.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -90,6 +89,7 @@ class Suggestions extends Component {
 	addComapny(){
 		console.log("addCompany:",this.state.companySymbol)
 		if (this.state.companySymbol) {
+			console.log("addCompany2:",this.state.companySymbol);
 			return(
 				swal({
 					title: this.state.companySymbol,
@@ -148,7 +148,7 @@ class Suggestions extends Component {
 					email: email
 				});
 				console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
-				// this.props.history.push("/company-list");
+				this.props.history.push("/company");
 			})
 			.catch((error) => {
 				console.error("Error adding document: ", error);
@@ -159,9 +159,12 @@ class Suggestions extends Component {
 	getApiData() {
 		axios.get("https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords="+this.state.value+"&apikey=Z51NHQ9W28LJMOHB")
 		.then((data)=>{
+			console.log("data of response:",data);
 			this.setState({
-				searchResponse: data.data['bestMatches']});
-			this.state.searchResponse = [];
+				searchResponse: data.data['bestMatches'],
+			});
+			console.log("searchResponse",this.state.searchResponse);
+			// this.state.searchResponse = [];
 			// const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+this.state.companySymbol+"&name=apple&interval=5min&apikey= Z51NHQ9W28LJMOHB";
 			// fetch(url)
 			// .then(res => res.json())
@@ -362,25 +365,26 @@ class Suggestions extends Component {
 			var chartrender = <div id="chart">
 			<ReactApexChart options={options} series={series} type="area" height="400" />
 			</div>
-			var showGraphOrSearchResult = this.state.searchResponse.length ? <div>
-			<center><h3>Search Response....</h3></center>
-			{this.state.searchResponse.map(data =>	
-				<List key={data['1. symbol']} className="list">
-				<ListItem>
-				<ListItemText className="search_list" primary={data['1. symbol']} secondary={data['2. name']} />
-				<ListItemSecondaryAction className="search_list1">
-				<IconButton color="primary" edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} className="addIcon">
-				+
-				</IconButton>
-				</ListItemSecondaryAction>
-				</ListItem>
-				<Divider />
-				</List>
-				)}
-			</div> : <div>
-			<center><h3>Graph</h3></center>
-			{chartrender ? chartrender : ''}
-			</div> 
+
+				var showGraphOrSearchResult = this.state.searchResponse.length ? <div>
+				<center><h3>Search Response....</h3></center>
+				{this.state.searchResponse.map(data =>	
+					<List key={data['1. symbol']} className="list">
+					<ListItem>
+					<ListItemText className="search_list" primary={data['1. symbol']} secondary={data['2. name']} />
+					<ListItemSecondaryAction className="search_list1">
+					<IconButton color="primary" edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} className="addIcon">
+					<AddIcon/>
+					</IconButton>
+					</ListItemSecondaryAction>
+					</ListItem>
+					<Divider />
+					</List>
+					)}
+				</div> : !this.state.searchResponse.length ? <div>
+				<center><h3>Graph</h3></center>
+				{chartrender ? chartrender : ''}
+				</div> : 'No data found'
 		}
 		return (
 			<div>
@@ -389,9 +393,9 @@ class Suggestions extends Component {
 			<span>Welcome Home....</span>
 			</div>
 			<div className="logout">
-			<Button variant="contained" color="secondary"  onClick={()=>this.logOut()}>
-			<Link to="/">Logout</Link>
-			</Button>
+			<a href="/"><Button variant="contained"  onClick={()=>this.logOut()}>
+			<b>Logout</b>
+			</Button></a>
 			</div>
 			<div className="search">
 			<form onSubmit={this.handleSubmit}>
