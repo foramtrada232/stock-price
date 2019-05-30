@@ -37,7 +37,8 @@ class Suggestions extends Component {
 			symbol: '',
 			name: '',
 			userEmail: '',
-			grapharray: []
+			grapharray: [],
+			isLoaded: false,
 		};
 		this.handleClick1 = this.handleClick1.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -87,7 +88,6 @@ class Suggestions extends Component {
 	}
 
 	addComapny(){
-		// console.log("addCompany:",this.state.companySymbol)
 		if (this.state.companySymbol) {
 			console.log("addCompany2:",this.state.companySymbol);
 			return(
@@ -98,7 +98,11 @@ class Suggestions extends Component {
 					buttons: true,
 					dangerMode: true,
 				}).then((willDelete) => {
-					{this.updateCompany(this.state.companyName)}
+					if(willDelete){
+						this.updateCompany(this.state.companyName)
+					} else{
+						console.log("no data found");
+					}
 				})
 				)
 		}
@@ -145,10 +149,11 @@ class Suggestions extends Component {
 				this.setState({
 					name: this.state.companyName,
 					symbol: this.state.companySymbol,
-					email: email
+					email: email,
+					isLoaded: true
 				});
 				console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
-				this.props.history.push("/company");
+				window.location.reload();
 			})
 			.catch((error) => {
 				console.error("Error adding document: ", error);
@@ -163,24 +168,7 @@ class Suggestions extends Component {
 			this.setState({
 				searchResponse: data.data['bestMatches'],
 			});
-			console.log("searchResponse",this.state.searchResponse);
-			// this.state.searchResponse = [];
-			// const url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+this.state.companySymbol+"&name=apple&interval=5min&apikey= Z51NHQ9W28LJMOHB";
-			// fetch(url)
-			// .then(res => res.json())
-			// .then(res => {console.log(res); return res;})
-			// .then(res => {
-				// 	this.setState(prevState =>({
-					// 		array: [...prevState.array, res]
-					// 	}))  
-					// 	console.log("data====>",this.state.array);
-					// }).catch(error => console.log('hello error: ', error));
-					// axios.get(url, (error, response) => {
-						// 	console.log('error: ', error);
-						// 	console.log('response: ', response);
-						// });
-
-					})
+		})
 	}
 
 	componentDidMount() {
@@ -216,15 +204,15 @@ class Suggestions extends Component {
 		var setTheState = (companyData) =>{
 			this.setState({
 				companyData: companyData,
+				isLoaded: true
 			})
 		}
 	}	
 
 	deleteCompany(id){
 		firebase.firestore().collection('company').doc(id).delete().then(() => {
-			alert('Company successfully deleted!')
+			swal("Successfully deleted!","", "success");
 			console.log("Document successfully deleted!");
-			// this.props.history.push("/company-list")
 		}).catch((error) => {
 			console.log("Error removing document: ", error);
 		});
@@ -276,6 +264,7 @@ class Suggestions extends Component {
 	}
 
 	render() {
+		const { isLoaded,array } = this.state;
 		if (this.state.grapharray.length) {
 			console.log('hey i m called');
 			var dataSeries = this.state.grapharray;
@@ -284,7 +273,6 @@ class Suggestions extends Component {
 			var dates = [];
 			for (var i = 0; i < dataSeries.length; i++) {
 				ts2 = ts2 + 86400000;
-				// console.log('der ', dataSeries[i].volume)
 				var obj = JSON.parse(dataSeries[i].volume)
 				var innerArr = [ts2,obj];
 				dates.push(innerArr)
@@ -365,82 +353,94 @@ class Suggestions extends Component {
 			var chartrender = <div id="chart">
 			<ReactApexChart options={options} series={series} type="area" height="400" />
 			</div>
-
-				var showGraphOrSearchResult = this.state.searchResponse.length ? <div>
-				<center><h3>Search Response....</h3></center>
-				{this.state.searchResponse.map(data =>	
-					<List key={data['1. symbol']} className="list">
-					<ListItem>
-					<ListItemText className="search_list" primary={data['1. symbol']} secondary={data['2. name']} />
-					<ListItemSecondaryAction className="search_list1">
-					<IconButton color="primary" edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} className="addIcon">
-					<AddIcon/>
-					</IconButton>
-					</ListItemSecondaryAction>
-					</ListItem>
-					<Divider />
-					</List>
-					)}
-				</div> : !this.state.searchResponse.length ? <div>
-				<center><h3>Graph</h3></center>
-				{chartrender ? chartrender : ''}
-				</div> : 'No data found'
 		}
-		return (
-			<div>
-			<div className="grid_class">
-			<div className="header_class">
-			<span>Welcome Home....</span>
-			</div>
-			<div className="logout">
-			<a href="/"><Button variant="contained"  onClick={()=>this.logOut()}>
-			<b>Logout</b>
-			</Button></a>
-			</div>
-			<div className="search">
-			<form onSubmit={this.handleSubmit}>
-			<Input className="search_input"
-			placeholder="Search Company"
-			inputProps={{
-				'aria-label': 'Description',
-			}}
-			value={this.state.value}
-			onChange={this.handleChange}
-			/>
-			<Button varient="filed" className="search_button" type="submit">
-			search
-			</Button>
-			</form>
-			</div>
-			{this.addComapny()}
-			</div>
-			<div className="grid_class1">
-			<div className="company_list">
-			<h3>Company List</h3>
-			{this.state.companyData.map(company =>
-				<List key={company.key}>
-				<ListItem onClick={() =>this.handleClick(company.symbol)}>
-				<ListItemText primary={company.symbol} secondary={company.name}/>
-				<ListItemSecondaryAction>
-				<IconButton edge="end" aria-label="Delete" onClick={this.deleteCompany.bind(this, company.key)}>
-				<DeleteIcon />
+			console.log("searchresponse=========================>",this.state.searchResponse);
+			var showGraphOrSearchResult = this.state.searchResponse.length ? <div>
+			<center><h3>Search Response....</h3></center>
+			{this.state.searchResponse.map(data =>	
+				<List key={data['1. symbol']} className="list">
+				<ListItem>
+				<ListItemText className="search_list" primary={data['1. symbol']} secondary={data['2. name']} />
+				<ListItemSecondaryAction className="search_list1">
+				<IconButton color="primary" edge="end" aria-label="Delete" onClick={() =>this.handleClick1(data)} className="addIcon">
+				<AddIcon/>
 				</IconButton>
 				</ListItemSecondaryAction>
 				</ListItem>
 				<Divider />
 				</List>
 				)}
-			</div>
-			<div className="graph_list">
-			{showGraphOrSearchResult}
-			</div>
-			</div>
-			</div>
-			)
-	}
+			</div> : (this.state.searchResponse ? <div>
+				<center><h3>Graph</h3></center>
+				{chartrender ? chartrender : ''}
+				</div> : '')
+			if (!isLoaded) {
+				return (
+					<center><div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></center>
+					)
+			} else if(isLoaded){
+				return (
+					<div>
+					<div className="grid_class">
+					<div className="header_class">
+					<span>Welcome Home....</span>
+					</div>
+					<div className="logout">
+					<a href="/"><Button variant="contained"  onClick={()=>this.logOut()}>
+					<b>Logout</b>
+					</Button></a>
+					</div>
+					<div className="search">
+					<form onSubmit={this.handleSubmit}>
+					<Input className="search_input"
+					placeholder="Search Company"
+					inputProps={{
+						'aria-label': 'Description',
+					}}
+					value={this.state.value}
+					onChange={this.handleChange}
+					/>
+					<Button varient="filed" className="search_button" type="submit">
+					search
+					</Button>
+					</form>
+					</div>
+					{this.addComapny()}
+					</div>
+					<div className="grid_class1">
+					<div className="company_list">
+					<h3>Company List</h3>
+					{this.state.companyData.map(company =>
+						<List key={company.key}>
+						<ListItem onClick={() =>this.handleClick(company.symbol)}>
+						<ListItemText primary={company.symbol} secondary={company.name}/>
+						<ListItemSecondaryAction>
+						<IconButton edge="end" aria-label="Delete" onClick={this.deleteCompany.bind(this, company.key)}>
+						<DeleteIcon />
+						</IconButton>
+						</ListItemSecondaryAction>
+						</ListItem>
+						<Divider />
+						</List>
+						)}
+					</div>
+					<div className="graph_list">
+					{showGraphOrSearchResult}
+					</div>
+					</div>
+					</div>
+					)
+			} else{
+				return(
+					<div>
+					<h2>Sorry no data found</h2>
+					</div>
+					);
+			}
+
+
+		}
 }
-
-
 
 
 export default Suggestions

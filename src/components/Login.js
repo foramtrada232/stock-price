@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import swal from 'sweetalert';
+
 
 class Login extends Component {
   constructor() {
@@ -50,7 +52,8 @@ class Login extends Component {
     .auth()
     .signInWithEmailAndPassword(email, password).then(()=>{
       localStorage.setItem('email1',email)
-     this.props.history.push("/company");
+      swal("Login Successfully!","", "success");
+      this.props.history.push("/company");
       console.log("login sucessfully")
     }).catch((error) => {
       console.log('hey error: ', error);
