@@ -4,7 +4,7 @@ import firebase from '../Firebase';
 import ReactApexChart from 'react-apexcharts';
 import swal from 'sweetalert';
 import '../App.css';
-import './company-list.css';
+import './Company-list.css';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -87,7 +87,7 @@ class Suggestions extends Component {
 	}
 
 	addComapny(){
-		console.log("addCompany:",this.state.companySymbol)
+		// console.log("addCompany:",this.state.companySymbol)
 		if (this.state.companySymbol) {
 			console.log("addCompany2:",this.state.companySymbol);
 			return(

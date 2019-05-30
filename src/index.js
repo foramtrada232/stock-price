@@ -4,26 +4,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Edit from './components/Edit';
 import Create from './components/Create';
-import Show from './components/Show';
 import Login from './components/Login';
 import Suggestions from './components/Suggestions';
-import Companylist from './components/Company-list';
-import CustomizedDialogs from './components/demo1';
 
 
 ReactDOM.render(
   <Router>
   <div>
   <Route exact path='/' component={App} />
-  <Route path='/edit/:id' component={Edit} />
   <Route path='/create' component={Create} />
-  <Route path='/show/:id' component={Show} />
   <Route path='/login' component={Login} />
   <Route path='/company' component={Suggestions} />
-  <Route path='/company-list' component={Companylist} />
-  <Route path='/demo' component={CustomizedDialogs} />
   </div>
   </Router>,
   document.getElementById('root')
