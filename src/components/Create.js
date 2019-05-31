@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
+import './login.css';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
+import { Link } from 'react-router-dom';
+
 
 
 class Create extends Component {
@@ -39,6 +46,7 @@ class Create extends Component {
         password: '',
       });
       this.props.history.push("/login")
+      console.log("signup sucessfully");
     })
     .catch((error) => {
       console.error("Error adding document: ", error);
@@ -55,43 +63,146 @@ class Create extends Component {
       }).catch((error) => {
         console.log("error===========>",error);
       });
-    }
+    };
 
-    render() {
-      const { email, password, username, createdAt } = this.state;
-      return (
-        <div className="container">
+  render() {
+    const { email, password, username } = this.state;
+    return (
+      <div>
+      <div className="backgroung_class">
+      <div className="main_class ">
+      <h1 className="text-center">Stock Signup</h1>
+      <Grid container spacing={1} xs={12}>
+      <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-user-input"
+      label="Username"
+      type="text"
+      name="username"
+      margin="normal"
+      variant="outlined"
+      value={username} 
+      onChange={this.onChange}
+      />
+      </Grid>
+      <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-email-input"
+      label="Email"
+      type="email"
+      name="email"
+      autoComplete="email"
+      margin="normal"
+      variant="outlined"
+      value={email} 
+      onChange={this.onChange}
+      /> 
+      </Grid>
+     <Grid item sm={12} xs={12}>
+      <TextField
+      id="outlined-password-input"
+      label="Password"
+      type="password"
+      name="password"
+      autoComplete="current-password"
+      margin="normal"
+      variant="outlined"
+      value={password}
+      onChange={this.onChange}
+      />
+      </Grid>
+     
+      <Grid item sm={12} xs={12}>
+      <Button color="primary"  variant="contained" size="large" onClick={(e)=>this.onSubmit(e)}>
+        SignUp
+      </Button>
+      </Grid>
+      <Divider />
+      <Grid item sm={12}>
+      <div className="text-center">
+      Already Registered? <Button color="primary"><Link to="/login">Login</Link></Button>
+      </div>
+      </Grid>
+      </Grid>
+      
+      </div>
+      </div>
+      </div>
+      // <div className="container">
+      // <div className="panel panel-default">
+      // <div className="panel-body">
+      // <form onSubmit={this.onSubmit}>
+      // <div className="form-group">
+      // <label htmlFor="email">Email:</label>
+      // <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
+      // </div>
+      // <div className="form-group">
+      // <label htmlFor="password">Password:</label>
+      // <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
+      // </div>
+      // <div className="form-group">
+      // <label htmlFor="username">UserName:</label>
+      // <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
+      // </div>
+      // <div className="form-group">
+      // <label htmlFor="createdAt">created:</label>
+      // <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
+      // </div>
+
+      // <button type="submit" className="btn btn-success">Sign up</button>
+
+      // </form>
+      // </div>
+      // </div>
+      // </div>
+      );
+    // render() {
+    //   const { email, password, username, createdAt } = this.state;
+    //   return (
+    //     <div className="container">
        
-        <div className="panel panel-default">
-        <div className="panel-body">
-        <form onSubmit={this.onSubmit}>
-        <div className="form-group">
-        <label htmlFor="email">Email:</label>
-        <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
-        </div>
-        <div className="form-group">
-        <label htmlFor="password">Password:</label>
-        <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
-        </div>
-        <div className="form-group">
-        <label htmlFor="username">UserName:</label>
-        <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
-        </div>
-        <div className="form-group">
-        <label htmlFor="createdAt">created:</label>
-        <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
-        </div>
+    //     <div className="panel panel-default">
+    //     <div className="panel-body">
+    //     <form onSubmit={this.onSubmit}>
+    //     <div className="form-group">
+    //     <label htmlFor="email">Email:</label>
+    //     <input type="email" className="form-control" name="email" value={email} onChange={this.onChange} placeholder="Email" />
+    //     </div>
+    //     <div className="form-group">
+    //     <label htmlFor="password">Password:</label>
+    //     <input type="password" className="form-control" name="password" value={password} onChange={this.onChange} placeholder="Password" />
+    //     </div>
+    //     <div className="form-group">
+    //     <label htmlFor="username">UserName:</label>
+    //     <input type="text" className="form-control" name="username" value={username} onChange={this.onChange} placeholder="UserName" />
+    //     </div>
+    //     <div className="form-group">
+    //     <label htmlFor="createdAt">created:</label>
+    //     <input type="date" className="form-control" name="createdAt" value={createdAt} onChange={this.onChange} placeholder="Phone" />
+    //     </div>
 
-        <button type="submit" className="btn btn-success">Sign up</button>
+    //     <button type="submit" className="btn btn-success">Sign up</button>
 
-        </form>
-        </div>
-        </div>
-        </div>
-        );
-    }
+    //     </form>
+    //     </div>
+    //     </div>
+    //     </div>
+    //     );
+    // }
   }
-
+}
   export default Create;
 
 
+  // <Grid item sm={12} xs={12}>
+  //     <TextField
+  //     id="outlined-password-input"
+  //     label="Password"
+  //     type="password"
+  //     autoComplete="current-password"
+  //     margin="normal"
+  //     variant="outlined"
+  //     value={this.state.password}
+  //     onChange={this.onChange}
+  //     />
+  //     </Grid>

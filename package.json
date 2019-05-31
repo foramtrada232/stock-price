@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.0.0",
+    "@material-ui/icons": "^4.0.1",
     "apexcharts": "^3.6.12",
     "axios": "^0.18.0",
     "d3-charts": "^0.0.11-0",
@@ -16,6 +17,7 @@
     "react-icons": "^3.7.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "reactjs-navigation": "^0.3.9",
     "sweetalert": "^2.1.2"
   },
   "scripts": {
@@ -38,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5"
   }
 }
