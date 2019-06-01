@@ -26,7 +26,6 @@ class Suggestions extends Component {
 		this.ref = firebase.firestore().collection('company');
 		this.unsubscribe = null;
 		this.state = {
-			isToggleOn: true,
 			user: [],
 			array:[],
 			searchResponse: [],
@@ -40,17 +39,18 @@ class Suggestions extends Component {
 			name: '',
 			userEmail: '',
 			grapharray: [],
-			isLoaded: false,
 			date: "",
-			isOpenSearch: false,
-			isOpenCompanyList: false,
 			open: '',
 			close: '',
 			high: '',
 			low: '',
 			clickCompanyName: '',
 			clickCompanySymbol: '',
-			isSearchClick: false
+			isLoaded: false,
+			isToggleOn: true,
+			isSearchClick: false,
+			isOpenSearch: false,
+			isOpenCompanyList: false
 
 		};
 		this.handleClick1 = this.handleClick1.bind(this);
@@ -188,7 +188,6 @@ class Suggestions extends Component {
 	displayCompanyList(){
 		const {date} = this.state;
 		if (this.state.grapharray.length) {
-			console.log('hey i m called');
 			var dataSeries = this.state.grapharray;
 			console.log("length:",dataSeries.length);
 			var ts2 = 1484418600000;
@@ -196,7 +195,6 @@ class Suggestions extends Component {
 			for (var i = 0; i < dataSeries.length; i++) {
 				ts2 = ts2 + 86400000;
 				var obj = JSON.parse(dataSeries[i].volume)
-				// var ts2 = JSON.parse(dataSeries[i].high)
 				var innerArr = [ts2,obj];
 				dates.push(innerArr)
 			}
@@ -623,7 +621,8 @@ class Suggestions extends Component {
 		if (!isLoaded) {
 			return (
 				<center>
-				<div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+				<div class="spinner"></div>
+
 				</center>
 				)
 		} else if(isLoaded){

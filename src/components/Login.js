@@ -56,7 +56,7 @@ class Login extends Component {
       localStorage.setItem('email1',email)
       swal("Login Successfully!","", "success");
       this.props.history.push("/company");
-      console.log("login sucessfully")
+      console.log("login sucessfully");
     }).catch((error) => {
       console.log('hey error: ', error);
       if(error.code === "auth/user-not-found"){
