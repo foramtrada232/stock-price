@@ -9,8 +9,6 @@ import Login from './components/Login';
 import Suggestions from './components/Suggestions';
 
 
-
-
 ReactDOM.render(
   <Router>
   <div>

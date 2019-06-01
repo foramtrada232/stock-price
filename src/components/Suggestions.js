@@ -7,7 +7,6 @@ import swal from 'sweetalert';
 import '../App.css';
 import './Company-list.css';
 import Input from '@material-ui/core/Input';
-import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -15,11 +14,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveCircle from '@material-ui/icons/RemoveCircle';
 // import Icon from '@material-ui/core/Icon';
+
 
 class Suggestions extends Component {
 
@@ -53,6 +51,7 @@ class Suggestions extends Component {
 			clickCompanyName: '',
 			clickCompanySymbol: '',
 			isSearchClick: false
+
 		};
 		this.handleClick1 = this.handleClick1.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -61,6 +60,7 @@ class Suggestions extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.openSeachbar = this.openSeachbar.bind(this);
 		this.displayCompanyList = this.displayCompanyList.bind(this);
+
 	}
 
 	handleChange(event) {
@@ -148,9 +148,13 @@ class Suggestions extends Component {
 			console.log("data1:",companyData.length);
 			if (companyData.length) {
 				console.log('found data', companyData);
-				swal("Already added!","", "info");
-				window.location.reload();
-				// this.displayCompanyList()
+				swal("Already added!","", "info")
+				.then((willDelete) => {
+					if(willDelete){
+						window.location.reload();
+
+					}
+				})
 			} else{
 				console.log("new company");
 				addCompany1()
@@ -172,7 +176,7 @@ class Suggestions extends Component {
 					isLoaded: true
 				});
 				console.log("name:",this.state.companyName + "symbol:",this.state.companySymbol);
-				// this.displayCompanyList()
+
 				window.location.reload();
 			})
 			.catch((error) => {
@@ -182,7 +186,7 @@ class Suggestions extends Component {
 	}
 
 	displayCompanyList(){
-		const { isLoaded, date} = this.state;
+		const {date} = this.state;
 		if (this.state.grapharray.length) {
 			console.log('hey i m called');
 			var dataSeries = this.state.grapharray;
@@ -326,7 +330,7 @@ class Suggestions extends Component {
 					</IconButton>
 					</ListItemSecondaryAction>
 					</ListItem>
-				</List>
+					</List>
 					)}
 				</div>
 				<div className="searching_list">
@@ -366,7 +370,7 @@ class Suggestions extends Component {
 				
 				<Grid container spacing={12}>
 				<Grid item sm={8}>
-				<p style={{marginLeft: 18}}>Showing Results for: {this.state.value}</p>
+				<p style={{marginLeft: 18}}>Manage Watchlist</p>
 				</Grid>
 				<Grid item sm={2}>
 				<p onClick={()=>this.openCompanyList()} style={{color:'#3f51b5'}}>Done</p>
@@ -400,6 +404,7 @@ class Suggestions extends Component {
 				</Button>
 				</form></div></center>
 				<center><div className="searchCompany_list">
+				<p>Showing Results for: {this.state.value}</p>
 				{this.state.searchResponse.map(data =>	
 					<List key={data['1. symbol']} >
 					<ListItem>
@@ -465,8 +470,9 @@ class Suggestions extends Component {
 					</div>
 					)
 			}
+
 		}
-	}
+	}	
 
 	getApiData() {
 		console.log("value:",this.state.value);
@@ -636,9 +642,9 @@ class Suggestions extends Component {
 				);
 		}
 	}
+
 }
 
 
 export default Suggestions
-
 

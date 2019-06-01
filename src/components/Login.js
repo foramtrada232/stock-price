@@ -5,12 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
+
 
 class Login extends Component {
-
-
   constructor() {
     super();
     this.ref = firebase.firestore().collection('users');
@@ -20,8 +19,8 @@ class Login extends Component {
       user: [],
       array:[],
     };
-    
   }
+
 
   onCollectionUpdate = (querySnapshot) => {
     const user = [];
@@ -45,6 +44,7 @@ class Login extends Component {
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
   handleSubmit = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
@@ -54,12 +54,19 @@ class Login extends Component {
     .auth()
     .signInWithEmailAndPassword(email, password).then(()=>{
       localStorage.setItem('email1',email)
-     this.props.history.push("/company");
+      swal("Login Successfully!","", "success");
+      this.props.history.push("/company");
       console.log("login sucessfully")
     }).catch((error) => {
       console.log('hey error: ', error);
+      if(error.code === "auth/user-not-found"){
+        swal("Email not found","Please, Signup","error");
+      } else{
+        swal("Please Enter correct password","","error");
+      }
     })
   };
+
   render() {
     const {email, password} = this.state;
     return (
@@ -96,7 +103,7 @@ class Login extends Component {
       </Grid>
       <Grid item sm={12} xs={12}>
       <Button color="primary"  variant="contained" size="large" onClick={(event)=>this.handleSubmit(event)}>
-        Login
+      Login
       </Button>
       </Grid>
       <Grid item sm={12}>
@@ -106,15 +113,12 @@ class Login extends Component {
       </div>
       </Grid>
       </Grid>
-      
       </div>
       </div>
-
-      
       </div>
       );
-    }
   }
+}
 
-  export default Login;
+export default Login;
 

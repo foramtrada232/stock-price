@@ -74,6 +74,7 @@ background-color: lightgray;
 .MuiCard-root{
 	width: 300px;
 	background-color: gray;
+
 }
 
 /*custom class*/
@@ -153,6 +154,7 @@ Card{
 .searchCompany_list{
   align-items: center;
   margin-top: 35px;
+
 }
 
 /*loader*/
@@ -236,56 +238,3 @@ Card{
   }
 }
 
-/*searchbox 555 185*/
-/*form{
-  display: block;
-  argin: auto;
-  top: 0; bottom: 0; left: 0; right: 0;
-  height: 100px;
-  width: 500px;
-  texposition: absolute;
-  mt-align: center;
-}
-
-form input{
-  height: 10px;
-  border: none;
-  border-bottom: 2px solid #DDD;
-	border-radius: 25px;
-  padding: 20px 35px;
-  width: 120px;
-	font-size: 1em;
-	border: 2px solid #777777;
-}
-
-button, input{
-  transition: all 0.5s ease-in-out;
-  -webkit-transition: all 0.15s ease-in-out;
-}
-
-form input:focus{
-  width: 300px;
-	outline: 0;
-}
-
-button{
-  height: 50px;
-  border: none;
-	border-radius: 25px;
-  padding: 10px 25px;
-  background: #666;
-  color: #FFF;
-  text-transform: uppercase;
-  font-size: 0.75em;
-  cursor: pointer;
-	opacity: 0;
-}
-
-form button:hover{
-  background: #222;
-}
-
-form input:focus ~ button{
-  display: inline-block;
-	opacity: 1;
-}*/
