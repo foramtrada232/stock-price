@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/stock-price/static/css/main.aec09047.chunk.css",
+    "main.js": "/stock-price/static/js/main.598f5579.chunk.js",
+    "main.js.map": "/stock-price/static/js/main.598f5579.chunk.js.map",
+    "runtime~main.js": "/stock-price/static/js/runtime~main.a6ac7259.js",
+    "runtime~main.js.map": "/stock-price/static/js/runtime~main.a6ac7259.js.map",
+    "static/js/2.10b4bc55.chunk.js": "/stock-price/static/js/2.10b4bc55.chunk.js",
+    "static/js/2.10b4bc55.chunk.js.map": "/stock-price/static/js/2.10b4bc55.chunk.js.map",
+    "index.html": "/stock-price/index.html",
+    "precache-manifest.cc6dbe6061638f9e424c313dfab68a95.js": "/stock-price/precache-manifest.cc6dbe6061638f9e424c313dfab68a95.js",
+    "service-worker.js": "/stock-price/service-worker.js",
+    "static/css/main.aec09047.chunk.css.map": "/stock-price/static/css/main.aec09047.chunk.css.map",
+    "static/media/Company-list.css": "/stock-price/static/media/bgimage.de08db18.jpg"
+  }
+}
