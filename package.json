@@ -6,7 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.0.0",
     "@material-ui/icons": "^4.0.1",
-    "apexcharts": "^3.6.12",
+    "apexcharts": "^3.24.0",
     "axios": "^0.18.0",
     "d3-charts": "^0.0.11-0",
     "dispatch-event": "^1.0.0",
